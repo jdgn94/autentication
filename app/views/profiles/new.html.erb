@@ -1,0 +1,16 @@
+<%= form_for(@profile) do |f| %>
+	<div class="field">
+		<%= f.label :nombre, "Nombre"%>
+		<%= f.text_field :nombre, placeholder: "Nombre" %>
+	</div>
+	<div class="filed">
+		<%= f.label :apellido, "Apellido"%>
+		<%= f.text_field :apellido, placeholder: "Apellido" %>
+	</div>
+	<div class="field">
+		<%= f.label :Dinero_disponible, "Fondos Disponibles: 0.00" %>
+	</div>
+	<div class="field">
+		<%= f.submit "Crear perfil" %>
+	</div>
+<% end %>
