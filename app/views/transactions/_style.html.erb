@@ -1,0 +1,25 @@
+<script>
+	function accion(numero){
+		var depo = document.getElementById('deposito'); 
+		var reti = document.getElementById('retiro');
+		var tran = document.getElementById('transaccion');
+
+		switch (numero){
+			case 1:
+				depo.style.display = 'block';
+				reti.style.display = 'none';
+				tran.style.display = 'none';
+				break;
+			case 2:
+				depo.style.display = 'none';
+				reti.style.display = 'block';
+				tran.style.display = 'none';
+				break;
+			case 3:
+				depo.style.display = 'none';
+				reti.style.display = 'none';
+				tran.style.display = 'block';
+				break;
+		}
+	}
+</script>

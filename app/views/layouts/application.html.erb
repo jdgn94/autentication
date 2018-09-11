@@ -11,10 +11,11 @@
 
   <body>
     <% if current_user %>
-      <h1>Bienvenido <%= current_user.email %></h1> 
       <% if current_user.profile.nil? %>
+        <h1>Bienvenido <%= current_user.email %></h1> 
         <%= link_to 'Create profile', new_profile_path %>
       <% else %>
+        <h1>Bienvenido <%= current_user.profile.nombre %></h1> 
         <%= link_to 'View profile', current_user.profile %>
       <% end %>
       <%= link_to 'Logout', destroy_user_session_path, :method => :delete %> 
