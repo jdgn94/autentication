@@ -3,9 +3,9 @@
 one:
   nombre: MyString
   apellido: MyString
-  dinero_disponible: 1.5
+  dinero: 1.5
 
 two:
   nombre: MyString
   apellido: MyString
-  dinero_disponible: 1.5
+  dinero: 1.5

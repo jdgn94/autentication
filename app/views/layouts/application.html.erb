@@ -11,14 +11,19 @@
 
   <body>
     <% if current_user %>
-      <h1>Bienvenido <%= current_user.email %></h1> <%= link_to 'Logout', destroy_user_session_path, :method => :delete %>
+      <h1>Bienvenido <%= current_user.email %></h1> 
+      <% if current_user.profile.nil? %>
+        <%= link_to 'Create profile', new_profile_path %>
+      <% else %>
+        <%= link_to 'View profile', current_user.profile %>
+      <% end %>
+      <%= link_to 'Logout', destroy_user_session_path, :method => :delete %> 
     <% else %>
       <%= link_to 'Login', new_user_session_path %>
       <%= link_to 'Sing up', new_user_registration_path %>
     <% end %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <a href="/profiles/new"><button>Crear perfil</button></a>
     <%= yield %>
   </body>
 </html>

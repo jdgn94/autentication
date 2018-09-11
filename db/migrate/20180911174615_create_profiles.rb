@@ -3,7 +3,7 @@ class CreateProfiles < ActiveRecord::Migration[5.2]
     create_table :profiles do |t|
       t.string :nombre
       t.string :apellido
-      t.float :dinero_disponible
+      t.float :dinero
 
       t.timestamps
     end

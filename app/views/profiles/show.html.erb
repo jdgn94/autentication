@@ -1,2 +1,19 @@
-<h1>Perfil de <%= @profile.nombre%> <%= @profile.apellido%></h1>
-<h2>Fondos Disponible <%= @profile.dinero_disponible%></h2>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @profile.nombre %>
+</p>
+
+<p>
+  <strong>Apellido:</strong>
+  <%= @profile.apellido %>
+</p>
+
+<p>
+  <strong>Dinero:</strong>
+  <%= @profile.dinero %>
+</p>
+
+<%= link_to 'Edit', edit_profile_path(@profile) %> |
+<%= link_to 'Back', profiles_path %>
