@@ -11,6 +11,7 @@
 
   <body>
     <% if current_user %>
+      <%= link_to "Pagina Principal", root_path %>
       <% if current_user.profile.nil? %>
         <h1>Bienvenido <%= current_user.email %></h1> 
         <%= link_to 'Create profile', new_profile_path %>

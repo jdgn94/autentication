@@ -1,11 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  usuario_emisor: MyString
-  tramite: 1.5
-  tipo_transaccion: MyString
+  inssuing_user: 1
+  receiving_user: 1
+  transaction_type_id: 1
+  transact: 1.5
 
 two:
-  usuario_emisor: MyString
-  tramite: 1.5
-  tipo_transaccion: MyString
+  inssuing_user: 1
+  receiving_user: 1
+  transaction_type_id: 1
+  transact: 1.5

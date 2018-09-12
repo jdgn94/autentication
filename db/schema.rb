@@ -10,24 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_11_200131) do
+ActiveRecord::Schema.define(version: 2018_09_12_181502) do
 
   create_table "profiles", force: :cascade do |t|
-    t.string "nombre"
-    t.string "apellido"
-    t.float "dinero"
+    t.string "first_name"
+    t.string "last_name"
+    t.float "money"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
   end
 
-  create_table "transactions", force: :cascade do |t|
-    t.string "usuario_emisor"
-    t.float "tramite"
-    t.string "tipo_transaccion"
+  create_table "transaction_types", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "user_id"
   end
 
   create_table "users", force: :cascade do |t|

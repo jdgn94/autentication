@@ -1,14 +1,13 @@
 class Profile < ApplicationRecord
 	belongs_to :user
-	has_many :transactions
-	validates :nombre, presence: true
-	validates :apellido, presence: true
+	validates :first_name, presence: true
+	validates :last_name, presence: true
 	validates :user_id, presence: true
 
-	before_create :fondo_disponible
+	after_create :avalaible_money
 
 	private
-	def fondo_disponible
-		self.dinero = 0.00
+	def avalaible_money
+		self.money = 0.00
 	end
 end
