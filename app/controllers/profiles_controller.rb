@@ -5,6 +5,7 @@ class ProfilesController < ApplicationController
   # GET /profiles
   # GET /profiles.json
   def index
+    redirect_to current_user.profile
     @profiles = Profile.all
   end
 

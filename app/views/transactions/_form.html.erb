@@ -1,3 +1,5 @@
 <%= form_for(@transaction) do |f| %>
-<%= f.number_field :amount, placeholder: 0 %><br>
+	<%= f.hidden_field :inssuing_user_id, :value => current_user.id %>
+	<%= f.hidden_field :receiving_user_id, :value => current_user.id %>
+	<%= f.text_field :amount, placeholder: 0 %><br>
 <% end %>

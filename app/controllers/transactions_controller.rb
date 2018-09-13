@@ -11,11 +11,32 @@ class TransactionsController < ApplicationController
 	end
 
 	def create
-		@transaction = current_user.build_inssuing_user(transaction_params)
+		@transaction = current_user.inssuing_user.new(transaction_params)
 		if @transaction.save
-
+			if @transaction.transaction_type_id == 1
+				current_user.profile.money += @transaction.amount.to_f
+				if current_user.profile.save
+					redirect_to transactions_path
+				else
+					render "new", notice: "No esta actualizando perfil"
+				end
+			elsif @transaction.transaction_type_id == 2
+				if current_user.profile.money >= @transaction.amount.to_f
+					current_user.profile.money -= @transaction.amount.to_f
+					if current_user.profile.save
+						redirect_to transaction_path
+					else
+						render "new", notice: "No se puede hacer el retiro debido a que el saldo es insuficiente"
+					end
+				else
+					render "new", notice: "No se puede hacer el retiro debido a que el saldo es insuficiente"
+				end
+			elsif @transaction.transaction_type_id == 3
+				if current_user.profile.money >= @transaction.amount.to_f
+				end
+			end	
 		else
-
+			render "new"
 		end
 	end
 

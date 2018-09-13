@@ -2,23 +2,24 @@
 <%= render "style" %>
 <%= form_for(@transaction) do |f| %>
 	<div class="field" style="display: none" id="deposito">
-		<% #f.transaction_type_id = 1 %>
-		<% #:inssuing_user_id => current_user.inssuing_user %>
-		<% #:receiving_user_id => nil %>
+		<%= f.hidden_field :transaction_type_id, :value => 1 %>
 		<h3><%= f.label :amount, "Dinero a depositar:" %></h3>
 		<%= render "form" %>
 		<%= f.submit "Finalizar deposito" %>
 	</div>
 	<div class="field" style="display: none" id="retiro">
+		<%= f.hidden_field :transaction_type_id, :value => 2 %>
 		<h3><%= f.label :amount, "Dinero a retirar:" %></h3>
 		<%= render "form" %>
 		<%= f.submit "Finalizar retiro" %>
 	</div>
 	<div class="field" style="display: none" id="transferencia">
-		<h3><%= f.label :receiving_user_id, "Correo del usuario a transferir" %></h3>
-		<%= f.email_field :receiving_user_id, placeholder: "ejemplo@email.com" %>
+		<%= f.hidden_field :transaction_type_id, :value => 3 %>
 		<h3><%= f.label :amount, "Dinero a transferir:" %></h3>
 		<%= render "form" %>
+		<%= f.hidden_field :inssuing_user_id, :value => current_user.id %>
+		<h3><%= f.label :receiving_user_id, "Correo del usuario a transferir" %></h3>
+		<%= f.email_field :receiving_user_id, placeholder: "ejemplo@email.com" %>
 		<%= f.submit "Finalizar transferencia" %>
 	</div>
 <% end %>

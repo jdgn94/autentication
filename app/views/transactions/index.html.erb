@@ -10,12 +10,12 @@
 	</thead>
 	<tbody>
 		<% @transactions.each do |transaction| %>
-			<% if (transaction.inssuing_user_id == current_user) || (transaction.receiving_user_id == current_user) %>
+			<% if (transaction.inssuing_user_id == current_user.id) || (transaction.receiving_user_id == current_user.id) %>
 				<tr>
-					<td><%= transaction.inssuing_user_id.email %></td>
-					<td><%= transaction.receiving_user_id.email %></td>
+					<td><%= transaction.inssuing_user.email %></td>
+					<td><%= transaction.receiving_user.email %></td>
 					<td><%= transaction.amount %></td>
-					<td><%= transaction.transaction_type_id.name %></td>
+					<td><%= transaction.transaction_type.name %></td>
 				</tr>
 			<% end %> 
 		<% end %>
