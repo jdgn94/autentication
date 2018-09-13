@@ -1,0 +1,23 @@
+<table>
+	<thead>
+		<tr>
+			<th>Inssuing user</th>
+			<th>Receiving user</th>
+			<th>Amount</th>
+			<th>Transaction type</th>
+			<th colspan="4"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @transactions.each do |transaction| %>
+			<% if (transaction.inssuing_user_id == current_user) || (transaction.receiving_user_id == current_user) %>
+				<tr>
+					<td><%= transaction.inssuing_user_id.email %></td>
+					<td><%= transaction.receiving_user_id.email %></td>
+					<td><%= transaction.amount %></td>
+					<td><%= transaction.transaction_type_id.name %></td>
+				</tr>
+			<% end %> 
+		<% end %>
+	</tbody>
+</table>

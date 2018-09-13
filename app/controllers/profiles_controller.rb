@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user! 
 
   # GET /profiles
   # GET /profiles.json
@@ -10,11 +11,19 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
+    redirect_to new_user_session_path if current_user.nil?
+    unless current_user.profile == @profile
+      redirect_to current_user.profile
+    end
   end
 
   # GET /profiles/new
   def new
-    @profile = current_user.build_profile
+    redirect_to new_user_session_path if current_user.nil? 
+    unless current_user.profile.nil?
+      redirect_to current_user.profile
+    end
+    @profile = Profile.new
   end
 
   # GET /profiles/1/edit
@@ -24,6 +33,7 @@ class ProfilesController < ApplicationController
   # POST /profiles
   # POST /profiles.json
   def create
+    #@profile = current_user.profile(profile_params)
     @profile = current_user.build_profile(profile_params)
 
     respond_to do |format|
@@ -62,13 +72,14 @@ class ProfilesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_profile
-      @profile = Profile.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_profile
+    @profile = Profile.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def profile_params
-      params.require(:profile).permit(:first_name, :last_name, :money)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def profile_params
+    params.require(:profile).permit(:first_name, :last_name, :money)
+  end
+
 end

@@ -4,7 +4,7 @@ class Profile < ApplicationRecord
 	validates :last_name, presence: true
 	validates :user_id, presence: true
 
-	after_create :avalaible_money
+	before_create :avalaible_money
 
 	private
 	def avalaible_money

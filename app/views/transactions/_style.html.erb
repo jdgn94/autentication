@@ -2,7 +2,7 @@
 	function accion(numero){
 		var depo = document.getElementById('deposito'); 
 		var reti = document.getElementById('retiro');
-		var tran = document.getElementById('transaccion');
+		var tran = document.getElementById('transferencia');
 
 		switch (numero){
 			case 1:
@@ -23,3 +23,8 @@
 		}
 	}
 </script>
+<h2>
+<input type="radio" name="opcion" onclick="accion(1)"> Deposito
+<input type="radio" name="opcion" onclick="accion(2)"> Retiro
+<input type="radio" name="opcion" onclick="accion(3)"> Transferecia
+</h2>
