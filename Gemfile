@@ -28,6 +28,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'devise', :git => 'git://github.com/plataformatec/devise.git'
 
+gem 'bootstrap', '~> 4.1.3'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

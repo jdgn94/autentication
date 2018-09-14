@@ -1,2 +1,11 @@
-<h1>Pagina principal</h1>
-<%= link_to "Hacer transaccion", new_transaction_path %>
+<h1>Welcome 
+	<% unless current_user.nil? %>
+		<% if current_user.profile.nil? %>
+			<%= current_user.email %>
+		<% else %>
+			<%= current_user.profile.first_name %>
+		<% end %>
+	<% end %>
+</h1>
+<%= link_to "new transaccion", new_transaction_path %>
+<%= link_to "history transaccion", transactions_path %>
