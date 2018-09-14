@@ -4,18 +4,40 @@
 			<th>Inssuing user</th>
 			<th>Receiving user</th>
 			<th>Amount</th>
+			<th>Remaining money</th>
 			<th>Transaction type</th>
-			<th colspan="4"></th>
+			<th>Date</th>
+			<th colspan="6"></th>
 		</tr>
 	</thead>
 	<tbody>
 		<% @transactions.each do |transaction| %>
 			<% if (transaction.inssuing_user_id == current_user.id) || (transaction.receiving_user_id == current_user.id) %>
 				<tr>
-					<td><%= transaction.inssuing_user.email %></td>
-					<td><%= transaction.receiving_user.email %></td>
-					<td><%= transaction.amount %></td>
-					<td><%= transaction.transaction_type.name %></td>
+					<% if transaction.transaction_type_id == 1 || transaction.transaction_type_id == 2 %>
+						<td><%= transaction.inssuing_user.email %></td>
+						<td> -------------- </td>
+						<td><%= transaction.amount %></td>
+						<td><%= transaction.deposit %></td>
+						<td><%= transaction.transaction_type.name %></td>
+						<td><%= transaction.created_at %></td>
+					<% else %>
+						<% if transaction.inssuing_user_id == current_user.id %>
+							<td><%= transaction.inssuing_user.email %></td>
+							<td><%= transaction.receiving_user_id.email %></td>
+							<td><%= transaction.amount %></td>
+							<td><%= transaction.deposit %></td>
+							<td><%= transaction.transaction_type.name %></td>
+							<td><%= transaction.created_at %></td>
+						<% else %>
+							<td><%= transaction.inssuing_user.email %></td>
+							<td><%= transaction.receiving_user_id.email %></td>
+							<td><%= transaction.amount %></td>
+							<td><%= transaction.withdraw %></td>
+							<td><%= transaction.transaction_type.name %></td>
+							<td><%= transaction.created_at %></td>
+						<% end %>
+					<% end %>
 				</tr>
 			<% end %> 
 		<% end %>
