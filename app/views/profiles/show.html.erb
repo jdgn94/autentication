@@ -12,10 +12,12 @@
 
 	<p>
 	  <strong>Money:</strong>
-	  <%= @profile.money %>
+	  <%= @profile.money %> 
+	  <% unless @profile.currency_type_id.nil? %>
+	  	<%= @profile.currency_type.symbol %>
+	  <% end %>
 	</p>
-
-	<%= link_to 'Edit', edit_profile_path(@profile) %> |
+	<%= link_to 'Edit', edit_profile_path(@profile) %>
 	<%= link_to 'Back', profiles_path %>
 <% else %>
 	<p>Usted no tiene permitido acceder a este perfil</p>

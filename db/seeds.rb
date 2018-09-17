@@ -9,4 +9,7 @@
 TransactionType.create(name: "deposit")
 TransactionType.create(name: "withdraw")
 TransactionType.create(name: "transfer")
-
+Currency.create(name_currency: "Dollar", acronym: "USD", symbol: "$", conversion: 1)
+Currency.create(name_currency: "euro", acronym: "EUR", symbol: "€", conversion: 0.85999)
+Currency.create(name_currency: "Bolivar", acronym: "VES", symbol: "BSS", conversion: 61.7751)
+Currency.create(name_currency: "Yen", acronym: "JPY", symbol: "¥", conversion: 112.03)

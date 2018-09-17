@@ -5,7 +5,13 @@ class ProfilesController < ApplicationController
   # GET /profiles
   # GET /profiles.json
   def index
-    redirect_to current_user.profile
+    if current_user.profile.nil?
+      redirect_to new_profile_path
+    elsif current_user.nil?
+      redirect_to new_user_session_path
+    else
+      redirect_to current_user.profile
+    end
     @profiles = Profile.all
   end
 
@@ -25,17 +31,20 @@ class ProfilesController < ApplicationController
       redirect_to current_user.profile
     end
     @profile = Profile.new
+    @currencies = Currency.all
   end
 
   # GET /profiles/1/edit
   def edit
+    @currencies = Currency.all
   end
 
   # POST /profiles
   # POST /profiles.json
   def create
-    #@profile = current_user.profile(profile_params)
+    puts params
     @profile = current_user.build_profile(profile_params)
+    @currencies = Currency.all
 
     respond_to do |format|
       if @profile.save
@@ -80,7 +89,8 @@ class ProfilesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def profile_params
-    params.require(:profile).permit(:first_name, :last_name, :money)
+    puts params
+    params.require(:profile).permit(:first_name, :last_name, :money, :currency_type_id)
   end
 
 end

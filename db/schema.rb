@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_14_184549) do
+ActiveRecord::Schema.define(version: 2018_09_17_171304) do
+
+  create_table "currencies", force: :cascade do |t|
+    t.string "name_currency"
+    t.string "acronym"
+    t.string "symbol"
+    t.float "conversion"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.string "first_name"
@@ -19,6 +28,8 @@ ActiveRecord::Schema.define(version: 2018_09_14_184549) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "currency_type_id"
+    t.index ["currency_type_id"], name: "index_profiles_on_currency_type_id"
   end
 
   create_table "transaction_types", force: :cascade do |t|

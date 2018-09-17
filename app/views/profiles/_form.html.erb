@@ -20,6 +20,21 @@
       <%= form.label :last_name %>
       <%= form.text_field :last_name, :class => "form-control" %>
     </div>
+
+    <div class="field">
+      <%= form.label :currency_type_id %>
+      <% unless profile.currency_type_id == 1 || profile.currency_type_id == 2 || profile.currency_type_id == 3 || profile.currency_type_id == 4 %>
+        <div class="input-group">
+          <select name="profile[currency_type_id]" id="profile_currency_type_id" class="custom-select">
+            <option value="">Select currency</option>
+            <% currencies.each do |c| %>
+              <option value="<%= c.id %>"><%= c.name_currency %></option>
+            <%end%>
+          </select>
+        </div>
+      <% #else %>
+      <% end %>
+    </div>  
     <br>
     <div class="actions">
       <%= form.submit :class => "btn btn-primary" %>
