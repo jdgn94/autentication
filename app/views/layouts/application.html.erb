@@ -9,21 +9,24 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <% if current_user %>
-      <%= link_to "Principal page", root_path %>
-      <% if current_user.profile.nil? %>
-        <%= link_to 'Create profile', new_profile_path %>
-      <% else %>
-        <%= link_to 'View profile', current_user.profile %>
-      <% end %>
-      <%= link_to 'Logout', destroy_user_session_path, :method => :delete %> 
-    <% else %>
-      <%= link_to 'Login', new_user_session_path %>
-      <%= link_to 'Sing up', new_user_registration_path %>
+  <body style="margin-top: 50pt">
+    <%= render "navbar/navbar" %>
+    <% if notice %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p class="notice"><%= notice %></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     <% end %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if alert %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <p class="alert"><%= alert %></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% end %>
     <div class="container">
       <%= yield %>
     </div>

@@ -1,17 +1,17 @@
-<table>
-	<thead>
+<table class="table table-hover">
+	<thead class="thead-dark">
 		<tr>
-			<th>Inssuing user</th>
-			<th>Receiving user</th>
-			<th>Amount</th>
-			<th>Remaining money</th>
-			<th>Transaction type</th>
-			<th>Date</th>
+			<th scope="col">Inssuing user</th>
+			<th scope="col">Receiving user</th>
+			<th scope="col">Amount</th>
+			<th scope="col">Remaining money</th>
+			<th scope="col">Transaction type</th>
+			<th scope="col">Date</th>
 			<th colspan="6"></th>
 		</tr>
 	</thead>
 	<tbody>
-		<% @transactions.each do |transaction| %>
+		<% @transactions.reverse_each do |transaction| %>
 			<% if (transaction.inssuing_user_id == current_user.id) || (transaction.receiving_user_id == current_user.id) %>
 				<tr>
 					<% if transaction.transaction_type_id == 1 || transaction.transaction_type_id == 2 %>
@@ -20,22 +20,22 @@
 						<td><%= transaction.amount %></td>
 						<td><%= transaction.deposit %></td>
 						<td><%= transaction.transaction_type.name %></td>
-						<td><%= transaction.created_at %></td>
+						<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
 					<% else %>
 						<% if transaction.inssuing_user_id == current_user.id %>
 							<td><%= transaction.inssuing_user.email %></td>
-							<td><%= transaction.receiving_user_id.email %></td>
+							<td><%= transaction.receiving_user.email %></td>
 							<td><%= transaction.amount %></td>
 							<td><%= transaction.deposit %></td>
 							<td><%= transaction.transaction_type.name %></td>
-							<td><%= transaction.created_at %></td>
+							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
 						<% else %>
 							<td><%= transaction.inssuing_user.email %></td>
-							<td><%= transaction.receiving_user_id.email %></td>
+							<td><%= transaction.receiving_user.email %></td>
 							<td><%= transaction.amount %></td>
 							<td><%= transaction.withdraw %></td>
 							<td><%= transaction.transaction_type.name %></td>
-							<td><%= transaction.created_at %></td>
+							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
 						<% end %>
 					<% end %>
 				</tr>
