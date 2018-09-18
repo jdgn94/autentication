@@ -17,23 +17,23 @@
 					<% if transaction.transaction_type_id == 1 || transaction.transaction_type_id == 2 %>
 						<td><%= transaction.inssuing_user.email %></td>
 						<td> -------------- </td>
-						<td><%= transaction.amount %></td>
-						<td><%= transaction.deposit %></td>
+						<td><%= transaction.amount %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
+						<td><%= transaction.deposit %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
 						<td><%= transaction.transaction_type.name %></td>
 						<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
 					<% else %>
 						<% if transaction.inssuing_user_id == current_user.id %>
 							<td><%= transaction.inssuing_user.email %></td>
 							<td><%= transaction.receiving_user.email %></td>
-							<td><%= transaction.amount %></td>
-							<td><%= transaction.deposit %></td>
+							<td><%= transaction.amount %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
+							<td><%= transaction.deposit %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
 							<td><%= transaction.transaction_type.name %></td>
 							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
 						<% else %>
 							<td><%= transaction.inssuing_user.email %></td>
 							<td><%= transaction.receiving_user.email %></td>
-							<td><%= transaction.amount %></td>
-							<td><%= transaction.withdraw %></td>
+							<td><%= transaction.amount %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
+							<td><%= transaction.withdraw %>  <%= transaction.receiving_user.profile.currency.symbol %></td>
 							<td><%= transaction.transaction_type.name %></td>
 							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
 						<% end %>

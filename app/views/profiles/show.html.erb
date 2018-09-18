@@ -10,13 +10,6 @@
 	  <%= @profile.last_name %>
 	</p>
 
-	<p>
-	  <strong>Money:</strong>
-	  <%= @profile.money %> 
-	  <% unless @profile.currency_type_id.nil? %>
-	  	<%= @profile.currency_type.symbol %>
-	  <% end %>
-	</p>
 	<%= link_to 'Edit', edit_profile_path(@profile) %>
 	<%= link_to 'Back', profiles_path %>
 <% else %>

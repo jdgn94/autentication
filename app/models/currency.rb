@@ -1,3 +1,3 @@
 class Currency < ApplicationRecord
-	has_many :profile
+	has_many :bank_accounts
 end

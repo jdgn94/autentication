@@ -3,7 +3,7 @@ class CreateTransactions < ActiveRecord::Migration[5.2]
     create_table :transactions do |t|
       t.integer :inssuing_user_id
       t.integer :receiving_user_id
-      t.float :amount
+      t.float :amount_transaction
 
       t.timestamps
     end

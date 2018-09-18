@@ -1,0 +1,37 @@
+<h1 class="display-4 text-center">Create new account</h1>
+<%= form_for(@bank_account) do |f| %>
+	<% if @bank_account.errors.any? %>
+	    <div id="error_explanation">
+			<h2><%= pluralize(@bank_account.errors.count, "error") %> prohibited this @bank_account from being saved:</h2>
+			<ul>
+				<% @bank_account.errors.full_messages.each do |message| %>
+					<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<%= f.label :first_name %>: <%= current_user.profile.first_name %><br>
+	<%= f.label :last_name %>: <%= current_user.profile.last_name %><br>
+	<%= f.hidden_field :profile, :value => current_user.profile %>
+	<div class="row">
+		<select class="custom-select col mx-3" name="bank_account[bank_type_id]" id="bank_account_bank_type_id">
+			<option value="">Select bank type</option>
+			<% @bank_types.each do |bank| %>
+				<option value="<%= bank.id %>"><%= bank.name_bank %></option>
+			<% end %>
+		</select>
+		<select class="custom-select col mx-3" name="bank_account[account_type_id]" id="bank_account_account_type_id">
+			<option value="">Select account type</option>
+			<% @account_types.each do |account| %>
+				<option value="<%= account.id %>"><%= account.name_account_type %></option>
+			<% end %>
+		</select>
+		<select class="custom-select col mx-3" name="bank_account[currency_id]" id="bank_account_currency_id">
+			<option value="">Select currency type</option>
+			<% @currencies.each do |currency| %>
+				<option value="<%= currency.id %>"><%= currency.name_currency %></option>
+			<% end %>
+		</select>
+	</div><br>
+	<%= f.submit :class => "btn btn-primary" %>
+<% end %>

@@ -7,7 +7,4 @@ class User < ApplicationRecord
   has_many :inssuing_user, :class_name => "Transaction", :foreign_key => "inssuing_user"
   has_many :receiving_user, :class_name => "Transaction", :foreign_key => "receiving_user"
 
-  def email_user
-  	"#{email}"  	
-  end
 end
