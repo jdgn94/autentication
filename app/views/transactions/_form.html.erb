@@ -1,5 +1,3 @@
 <%= form_for(@transaction) do |f| %>
-	<%= f.hidden_field :inssuing_user_id, :value => current_user.id %>
-	<%= f.hidden_field :receiving_user_id, :value => current_user.id %>
-	<%= f.text_field :amount, placeholder: 0, :class => "form-control" %><br>
+	<%= f.text_field :amount_transaction, placeholder: 0, :class => "form-control col mx-3" %>
 <% end %>

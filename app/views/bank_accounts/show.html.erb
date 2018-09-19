@@ -1,3 +1,4 @@
-<%= @bank_account.bank_type.name_bank %><br>
-<%= @bank_account.account_type.name_account_type %><br>
-<%= @bank_account.available_money %>  <%= @bank_account.currency.symbol %><br>
+Bank name: <%= @bank_account.bank_type.name_bank %><br>
+Account number: <%= @bank_account.account_number %><br>
+Account type: <%= @bank_account.account_type.name_account_type %><br>
+Available money: <%= @bank_account.available_money %>  <%= @bank_account.currency.symbol %><br>

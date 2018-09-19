@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_18_161123) do
+ActiveRecord::Schema.define(version: 2018_09_19_132252) do
 
   create_table "account_types", force: :cascade do |t|
     t.string "name_account_type"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2018_09_18_161123) do
     t.integer "account_type_id"
     t.integer "currency_id"
     t.integer "bank_type_id"
+    t.integer "account_number"
     t.index ["account_type_id"], name: "index_bank_accounts_on_account_type_id"
     t.index ["bank_type_id"], name: "index_bank_accounts_on_bank_type_id"
     t.index ["currency_id"], name: "index_bank_accounts_on_currency_id"
@@ -62,14 +63,14 @@ ActiveRecord::Schema.define(version: 2018_09_18_161123) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.integer "inssuing_user_id"
-    t.integer "receiving_user_id"
+    t.integer "inssuing_bank_account_id"
+    t.integer "receiving_bank_account_id"
     t.float "amount_transaction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "transaction_type_id"
-    t.float "inssuing_user_balance"
-    t.float "receiving_user_balance"
+    t.float "inssuing_bank_account_balance"
+    t.float "receiving_bank_account_balance"
     t.index ["transaction_type_id"], name: "index_transactions_on_transaction_type_id"
   end
 

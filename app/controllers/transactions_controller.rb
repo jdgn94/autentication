@@ -4,26 +4,30 @@ class TransactionsController < ApplicationController
 
 	#GET /transactions
   	def index
-  		@transactions = Transaction.all
+		@transactions = Transaction.all
+		@account = params[:account]
+		@bank_accounts = BankAccount.all
   	end
 
 	#GET /transaction/new
 	def new
 		@transaction = Transaction.new
-		@users = User.all
+		@bank_accounts = BankAccount.all
 	end
 
 	#GET /transactions
 	def create
-		@transaction = current_user.inssuing_user.new(transaction_params)
-		@users = User.all
+		@transaction = Transaction.new(transaction_params)
+		@bank_accounts = BankAccount.all
+		puts transaction_params
 		if @transaction.transaction_type_id == 1
 			if @transaction.amount_transaction >= 0
-				current_user.profile.money += @transaction.amount_transaction.to_f
-				@transaction.inssuing_user_balance = current_user.profile.money.to_f
-				@transaction.receiving_user_balance = 0.0
+				@transaction.receiving_bank_account = @transaction.inssuing_bank_account
+				@transaction.inssuing_bank_account.available_money += @transaction.amount_transaction
+				@transaction.inssuing_bank_account_balance = @transaction.inssuing_bank_account.available_money
+				@transaction.receiving_bank_account_balance = 0.0
 				if @transaction.save
-					if current_user.profile.save
+					if @transaction.inssuing_bank_account.save
 						redirect_to transactions_path
 					else
 						flash[:error] = "No esta actualizando el perfil"
@@ -38,13 +42,14 @@ class TransactionsController < ApplicationController
 				render "new"
 			end
 		elsif @transaction.transaction_type_id == 2
-			if @transaction.amount_transaction.to_f <= current_user.profile.money
+			if @transaction.amount_transaction <= @transaction.inssuing_bank_account.available_money
 				if @transaction.amount_transaction >= 0
-					current_user.profile.money -= @transaction.amount_transaction.to_f
-					@transaction.inssuing_user_balance = current_user.profile.money
-					@transaction.receiving_user_balance = 0.0
+					@transaction.receiving_bank_account = @transaction.inssuing_bank_account
+					@transaction.inssuing_bank_account.available_money -= @transaction.amount_transaction
+					@transaction.inssuing_bank_account_balance = @transaction.inssuing_bank_account.available_money
+					@transaction.receiving_bank_account_balance = 0.0
 					if @transaction.save
-						if current_user.profile.save
+						if @transaction.inssuing_bank_account.save
 							redirect_to transactions_path
 						else
 							flash[:error] = "No se puede hacer el retiro debido a que el saldo es insuficiente"
@@ -63,43 +68,61 @@ class TransactionsController < ApplicationController
 			end
 		elsif @transaction.transaction_type_id == 3
 			exist = false
-			if @transaction.amount_transaction.to_f <= current_user.profile.money
+			if @transaction.amount_transaction <= @transaction.inssuing_bank_account.available_money
 				if @transaction.amount_transaction >= 0
-					unless @transaction.receiving_user_id.to_i == current_user.id
-						@users.each do |u|
-							if u.id == @transaction.receiving_user_id
-								unless u.profile.nil?
-									if u.profile.currency == current_user.profile.currency
-										u.profile.money += @transaction.amount_transaction
-										u.profile.save
-										@transaction.receiving_user_balance = u.profile.money
+					unless @transaction.inssuing_bank_account.account_number == @transaction.receiving_bank_account_id
+						@bank_accounts.each do |account|
+							if account.account_number == @transaction.receiving_bank_account_id
+								@transaction.receiving_bank_account_id = account.id
+								if account.currency ==  @transaction.inssuing_bank_account.currency
+									account.available_money += @transaction.amount_transaction
+									if account.save
+										@transaction.receiving_bank_account_balance = account.available_money
 										exist = true
 										break
 									else
-										u.profile.money += (@transaction.amount_transaction*u.profile.currency.conversion)/current_user.profile.currency.conversion
-										u.profile.save
-										@transaction.receiving_user_balance = u.profile.money
+										flash[:error] = "Ocurrio un error al guardar el receptor"
+										render "new"
+									end
+								else
+									account.available_money += (@transaction.amount_transaction*account.currency.conversion)/@transaction.inssuing_bank_account.currency.conversion
+									if account.save
+										@transaction.receiving_bank_account_balance = account.available_money
 										exist = true
 										break
+									else
+										flash[:error] = "Ocurrio un error al guardar el receptor"
+										render "new"
 									end
 								end
 							end
 						end
-						unless exist
-							flash[:error] = "El usuario no existe o no tiene perfil al que se le va a transferir"
-							render "new"
+					else
+						flash[:error] = "No se puede hacer una transferencia a la cuenta que se esta tramitiendo"
+						render "new"
+					end
+					unless exist
+						flash[:error] = "La cuenta bancaria no existe"
+						render "new"
+					else
+						@transaction.inssuing_bank_account.available_money -= @transaction.amount_transaction
+						if @transaction.inssuing_bank_account.save
+							@transaction.inssuing_bank_account_balance = @transaction.inssuing_bank_account.available_money
+							if @transaction.save
+								redirect_to transactions_path
+							else
+								flash[:error] = "Ocurrio un error en el guardado de la transaccion"
+								render "new"
+							end
 						else
-							current_user.profile.money -= @transaction.amount_transaction
-							current_user.profile.save
-							@transaction.inssuing_user_balance = current_user.profile.money
-							@transaction.save
-							redirect_to transactions_path
+							flash[:error] = "Ocurrio un error al guardar el usuario emitente"
+							render "new"
 						end
 					end
-				else
-					flash[:alert] = "El monto no puede ser negativo"
-					render "new"
 				end
+			else
+				flash[:alert] = "El monto no puede ser negativo"
+				render "new"
 			end
 		end
 	end
@@ -112,7 +135,7 @@ class TransactionsController < ApplicationController
 	end
 
 	def transaction_params
-		params.require(:transaction).permit(:inssuing_user_id, :receiving_user_id, :amount_transaction, :transaction_type_id, :inssuing_user_balance, :receiving_user_balance)
+		params.require(:transaction).permit(:inssuing_bank_account_id, :receiving_bank_account_id, :amount_transaction, :transaction_type_id, :inssuing_user_balance, :receiving_user_balance)
 	end
 
 end

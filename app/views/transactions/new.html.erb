@@ -1,4 +1,13 @@
-<h1 class="display-1 text-center">Choose a type of transaction</h1>
+<h1 class="display-4 text-center">Choose a type of transaction</h1>
+<h3>filter by: </h3>
+<select name="transaction[inssuing_bank_account_id]" id="transaction_inssuing_bank_account_id" class="custom-select">
+	<option value="">Select account</option>
+	<% @bank_accounts.each do |bank| %>
+		<% if current_user.profile == bank.profile %>
+			<option value="<%= bank.id %>"><%= bank.bank_type.name_bank %> - <%= bank.account_type.name_account_type %> - ****<%= bank.account_number%10000 %></option>
+		<% end %>
+	<% end %>
+</select>
 <div class="container">
 	<% flash.each do |key, value| %>
 	  <div class="alert alert-<%= key %> alert-dismissible fade show" role="alert">
@@ -12,45 +21,82 @@
 <%= render "style" %>
 <%= form_for(@transaction) do |f| %>
 	<div class="field card bg-dark" style="display: none" id="deposito">
-		<div class="container"><br>
-			<%= f.hidden_field :transaction_type_id, :value => 1 %>
-			<h3><%= f.label :amount, "Money to deposit:", :class => "text-white" %></h3>
-			<%= render "form" %>
-			<%= f.submit "Finish deposit", :class => "btn btn-primary" %><br>
+		<div class="container">
+			<div class="row mx-3 my-3">
+				<%= f.hidden_field :transaction_type_id, :value => 1 %>
+				<h3><%= f.label :amount_transaction, "Money to deposit:", :class => "text-white col" %></h3>
+				<%= render "form" %>
+			</div>
+			<div class="row mx-3 my-3">
+				<h3><%= f.label :select_account, :class => "text-white col" %></h3>
+				<div class="input-group col mx-3">
+					<select name="transaction[inssuing_bank_account_id]" id="transaction_inssuing_bank_account_id" class="custom-select">
+						<option value="">Select account</option>
+						<% @bank_accounts.each do |bank| %>
+							<% if current_user.profile == bank.profile %>
+								<option value="<%= bank.id %>"><%= bank.bank_type.name_bank %> - <%= bank.account_type.name_account_type %> - ****<%= bank.account_number%10000 %></option>
+							<% end %>
+						<% end %>
+					</select>
+				</div>
+			</div>
+			<%= f.submit "Finish deposit", :class => "btn btn-primary my-3 mx-3" %>
 		</div>
 	</div>
 <% end %>
 <%= form_for(@transaction) do |f| %>
 	<div class="field card bg-dark" style="display: none" id="retiro">
-		<div class="container"><br>
-			<%= f.hidden_field :transaction_type_id, :value => 2 %>
-			<h3><%= f.label :amount, "Money to withdraw:", :class => "text-white" %></h3>
-			<%= render "form" %>
-			<%= f.submit "Finish withdraw", :class => "btn btn-primary" %><br>
+		<div class="container">
+			<div class="row mx-3 my-3">
+				<%= f.hidden_field :transaction_type_id, :value => 2 %>
+				<h3><%= f.label :amount_transaction, "Money to withdraw:", :class => "text-white col" %></h3>
+				<%= render "form" %>
+			</div>
+			<div class="row mx-3 my-3">
+				<h3><%= f.label :select_account, :class => "text-white col" %></h3>
+				<div class="input-group col mx-3">
+					<select name="transaction[inssuing_bank_account_id]" id="transaction_inssuing_bank_account_id" class="custom-select">
+						<option value="">Select account</option>
+						<% @bank_accounts.each do |bank| %>
+							<% if current_user.profile == bank.profile %>
+								<option value="<%= bank.id %>"><%= bank.bank_type.name_bank %> - <%= bank.account_type.name_account_type %> - ****<%= bank.account_number%10000 %></option>
+							<% end %>
+						<% end %>
+					</select>
+				</div>
+			</div>
+			<%= f.submit "Finish withdraw", :class => "btn btn-primary my-3 mx-3" %>
 		</div>
 	</div>
 <% end %>
 <%= form_for(@transaction) do |f| %>
 	<div class="field card bg-dark" style="display: none" id="transferencia">
-		<div class="container"><br>
-			<%= f.hidden_field :transaction_type_id, :value => 3 %>
-			<h3><%= f.label :amount, "Money to transfer:", :class => "text-white" %></h3>
-			<%= render "form" %>
-			<%= f.hidden_field :inssuing_user_id, :value => current_user.id %>
-			<h3><%= f.label :receiving_user_id, "Mail of the user to be transferred", :class => "text-white" %></h3>
-			<% f.collection_select :receiving_user_id, User.all, :id, :email, :prompt => true %>
-			<div class="input-group">
-				<select name="transaction[receiving_user_id]" id="transaction_receiving_user_id" class="custom-select">
-					<option value="">Select user</option>
-					<% @users.each do |u| %>
-						<% unless current_user == u || u.profile.nil? %>
-							<option value="<%= u.id %>"><%= u.email %></option>
-						<% end %>
-					<% end %>
-				</select>
+		<div class="container">
+			<div class="row mx-3 my-3">
+				<%= f.hidden_field :transaction_type_id, :value => 3 %>
+				<h3><%= f.label :amount_transaction, "Money to transfer:", :class => "text-white col" %></h3>
+				<%= render "form" %>
 			</div>
-			<br>
-			<%= f.submit "Finish transfer", :class => "btn btn-primary" %><br>
+			<div class="row mx-3 my-3">
+				<h3><%= f.label :select_account, :class => "text-white col" %></h3>
+				<div class="input-group col mx-3">
+					<select name="transaction[inssuing_bank_account_id]" id="transaction_inssuing_bank_account_id" class="custom-select">
+						<option value="">Select account</option>
+						<% @bank_accounts.each do |bank| %>
+							<% if current_user.profile == bank.profile %>
+								<option value="<%= bank.id %>"><%= bank.bank_type.name_bank %> - <%= bank.account_type.name_account_type %> - ****<%= bank.account_number%10000 %></option>
+							<% end %>
+						<% end %>
+					</select>
+				</div>
+			</div>
+			<div class="row mx-3 my-3">
+				<%= f.hidden_field :inssuing_user_id, :value => current_user.id %>
+				<h3><%= f.label :receiving_bank_account, "Account number of the recipient user", :class => "text-white col" %></h3>
+				<%= f.text_field :receiving_bank_account_id, placeholder: "XXXXXXXX", :class => "form-control col mx-3" %>
+				<% f.collection_select :receiving_bank_account_id, User.all, :id, :email, :prompt => true %>
+			</div>
+			<%= f.submit "Finish transfer", :class => "btn btn-primary my-3 mx-3" %><br>
 		</div>
 	</div>
 <% end %>

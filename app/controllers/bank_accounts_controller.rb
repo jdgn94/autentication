@@ -22,7 +22,7 @@ class BankAccountsController < ApplicationController
 		@currencies = Currency.all
 		puts bank_account_params
 		if @bank_account.save
-			redirect_to @bank_account
+			redirect_to bank_accounts_path
 		else
 			flash[:warning] = "Ocurrio un problema"
 			render "new"
@@ -36,7 +36,7 @@ class BankAccountsController < ApplicationController
 
 	private
 	def bank_account_params
-		params.require(:bank_account).permit(:available_money, :profile_id, :account_type_id, :currency_id, :bank_type_id)
+		params.require(:bank_account).permit(:available_money, :profile_id, :account_type_id, :currency_id, :bank_type_id, :account_number)
 	end
 
 	def set_bank_account

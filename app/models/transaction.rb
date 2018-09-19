@@ -1,8 +1,8 @@
 class Transaction < ApplicationRecord
 	belongs_to :transaction_type
-	belongs_to :inssuing_user, :class_name => "User"
-	belongs_to :receiving_user, :class_name => "User"
+	belongs_to :inssuing_bank_account, class_name: 'BankAccount'
+	belongs_to :receiving_bank_account, class_name: 'BankAccount'
 
-	validates :amount, numericality: { only_float: true }
+	validates :amount_transaction, numericality: { only_float: true }
 
 end

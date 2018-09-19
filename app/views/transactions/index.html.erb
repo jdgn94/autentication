@@ -1,45 +1,79 @@
+<%= debug @account %>
+<div class="row mx-3 my-3">
+	<h3 class="col text-right">Filter by: </h3>
+	<select name="[account]" id="account" class="custom-select col">
+		<option value="">Select account</option>
+		<% @bank_accounts.each do |bank| %>
+			<% if current_user.profile == bank.profile %>
+				<option value="<%= bank.id %>"><%= bank.bank_type.name_bank %> - <%= bank.account_type.name_account_type %> - ****<%= bank.account_number%10000 %></option>
+			<% end %>
+		<% end %>
+	</select>
+	<%= link_to "send", transactions_path(:account), :class => "btn btn-primary col-1 mx-3" %>
+</div>
 <table class="table table-hover">
 	<thead class="thead-dark">
 		<tr>
 			<th scope="col">Inssuing user</th>
 			<th scope="col">Receiving user</th>
 			<th scope="col">Amount</th>
-			<th scope="col">Remaining money</th>
+			<th scope="col">Balance</th>
 			<th scope="col">Transaction type</th>
 			<th scope="col">Date</th>
 			<th colspan="6"></th>
 		</tr>
 	</thead>
 	<tbody>
-		<% @transactions.reverse_each do |transaction| %>
-			<% if (transaction.inssuing_user_id == current_user.id) || (transaction.receiving_user_id == current_user.id) %>
-				<tr>
+		<% if @account.nil? %>
+			<% @transactions.reverse_each do |transaction| %>
+				<% if (transaction.inssuing_bank_account.profile.id == current_user.profile.id) || (transaction.receiving_bank_account.profile.id == current_user.profile.id) %>
 					<% if transaction.transaction_type_id == 1 || transaction.transaction_type_id == 2 %>
-						<td><%= transaction.inssuing_user.email %></td>
-						<td> -------------- </td>
-						<td><%= transaction.amount %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
-						<td><%= transaction.deposit %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
-						<td><%= transaction.transaction_type.name %></td>
-						<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
+						<tr>
+							<td><%= transaction.inssuing_bank_account.profile.user.email %></td>
+							<td> -------------- </td>
+							<td><%= transaction.amount_transaction %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.inssuing_bank_account_balance %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.transaction_type.name_transaction %></td>
+							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
+						</tr>
+					<% elsif transaction.transaction_type_id == 3 && transaction.inssuing_bank_account.profile == transaction.receiving_bank_account.profile %>
+						<tr>
+							<td><%= transaction.inssuing_bank_account.profile.user.email %></td>
+							<td><%= transaction.receiving_bank_account.profile.user.email %></td>
+							<td><%= transaction.amount_transaction %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.inssuing_bank_account_balance %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.transaction_type.name_transaction %></td>
+							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
+						</tr>
+							<td><%= transaction.inssuing_bank_account.profile.user.email %></td>
+							<td><%= transaction.receiving_bank_account.profile.user.email %></td>
+							<td><%= transaction.amount_transaction %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.receiving_bank_account_balance %>  <%= transaction.receiving_bank_account.currency.symbol %></td>
+							<td><%= transaction.transaction_type.name_transaction %></td>
+							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
+						<tr>
+						</tr>
+					<% elsif transaction.inssuing_bank_account.profile.id == current_user.profile.id %>
+						<tr>
+							<td><%= transaction.inssuing_bank_account.profile.user.email %></td>
+							<td><%= transaction.receiving_bank_account.profile.user.email %></td>
+							<td><%= transaction.amount_transaction %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.inssuing_bank_account_balance %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.transaction_type.name_transaction %></td>
+							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
+						</tr>
 					<% else %>
-						<% if transaction.inssuing_user_id == current_user.id %>
-							<td><%= transaction.inssuing_user.email %></td>
-							<td><%= transaction.receiving_user.email %></td>
-							<td><%= transaction.amount %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
-							<td><%= transaction.deposit %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
-							<td><%= transaction.transaction_type.name %></td>
+						<tr>
+							<td><%= transaction.inssuing_bank_account.profile.user.email %></td>
+							<td><%= transaction.receiving_bank_account.profile.user.email %></td>
+							<td><%= transaction.amount_transaction %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.receiving_bank_account_balance %>  <%= transaction.inssuing_bank_account.currency.symbol %></td>
+							<td><%= transaction.transaction_type.name_transaction %></td>
 							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
-						<% else %>
-							<td><%= transaction.inssuing_user.email %></td>
-							<td><%= transaction.receiving_user.email %></td>
-							<td><%= transaction.amount %>  <%= transaction.inssuing_user.profile.currency.symbol %></td>
-							<td><%= transaction.withdraw %>  <%= transaction.receiving_user.profile.currency.symbol %></td>
-							<td><%= transaction.transaction_type.name %></td>
-							<td><%= transaction.created_at.in_time_zone("Caracas").to_formatted_s(:short) %></td>
-						<% end %>
+						</tr>
 					<% end %>
-				</tr>
-			<% end %> 
+				<% end %> 
+			<% end %>
 		<% end %>
 	</tbody>
 </table>
