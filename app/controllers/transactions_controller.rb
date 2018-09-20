@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
 	#GET /transactions
   	def index
 		@transactions = Transaction.all
-		@account = params[:account]
+		@account = params[:account_id]
 		@bank_accounts = BankAccount.all
   	end
 
@@ -13,12 +13,14 @@ class TransactionsController < ApplicationController
 	def new
 		@transaction = Transaction.new
 		@bank_accounts = BankAccount.all
+		@transaction_mode_types = TransactionModeType.all
 	end
 
 	#GET /transactions
 	def create
 		@transaction = Transaction.new(transaction_params)
 		@bank_accounts = BankAccount.all
+		@transaction_mode_types = TransactionModeType.all
 		puts transaction_params
 		if @transaction.transaction_type_id == 1
 			if @transaction.amount_transaction >= 0
@@ -135,7 +137,7 @@ class TransactionsController < ApplicationController
 	end
 
 	def transaction_params
-		params.require(:transaction).permit(:inssuing_bank_account_id, :receiving_bank_account_id, :amount_transaction, :transaction_type_id, :inssuing_user_balance, :receiving_user_balance)
+		params.require(:transaction).permit(:inssuing_bank_account_id, :receiving_bank_account_id, :amount_transaction, :transaction_type_id, :inssuing_user_balance, :receiving_user_balance, :transaction_mode_type_id)
 	end
 
 end

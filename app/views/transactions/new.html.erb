@@ -1,13 +1,4 @@
 <h1 class="display-4 text-center">Choose a type of transaction</h1>
-<h3>filter by: </h3>
-<select name="transaction[inssuing_bank_account_id]" id="transaction_inssuing_bank_account_id" class="custom-select">
-	<option value="">Select account</option>
-	<% @bank_accounts.each do |bank| %>
-		<% if current_user.profile == bank.profile %>
-			<option value="<%= bank.id %>"><%= bank.bank_type.name_bank %> - <%= bank.account_type.name_account_type %> - ****<%= bank.account_number%10000 %></option>
-		<% end %>
-	<% end %>
-</select>
 <div class="container">
 	<% flash.each do |key, value| %>
 	  <div class="alert alert-<%= key %> alert-dismissible fade show" role="alert">
@@ -26,6 +17,17 @@
 				<%= f.hidden_field :transaction_type_id, :value => 1 %>
 				<h3><%= f.label :amount_transaction, "Money to deposit:", :class => "text-white col" %></h3>
 				<%= render "form" %>
+			</div>
+			<div class="row mx-3 my-3">
+				<h3><%= f.label :select_transaction_type, :class => "text-white col" %></h3>
+				<div class="input-group col mx-3">
+					<select name="transaction[transaction_mode_type_id]" id="transaction_transaction_mode_type_id" class="custom-select">
+						<option value="">Select account</option>
+						<% @transaction_mode_types.each do |type| %>
+							<option value="<%= type.id %>"><%= type.name_transaction_type %></option>
+						<% end %>
+					</select>
+				</div>
 			</div>
 			<div class="row mx-3 my-3">
 				<h3><%= f.label :select_account, :class => "text-white col" %></h3>
@@ -53,6 +55,17 @@
 				<%= render "form" %>
 			</div>
 			<div class="row mx-3 my-3">
+				<h3><%= f.label :select_transaction_type, :class => "text-white col" %></h3>
+				<div class="input-group col mx-3">
+					<select name="transaction[transaction_mode_type_id]" id="transaction_transaction_mode_type_id" class="custom-select">
+						<option value="">Select account</option>
+						<% @transaction_mode_types.each do |type| %>
+							<option value="<%= type.id %>"><%= type.name_transaction_type %></option>
+						<% end %>
+					</select>
+				</div>
+			</div>
+			<div class="row mx-3 my-3">
 				<h3><%= f.label :select_account, :class => "text-white col" %></h3>
 				<div class="input-group col mx-3">
 					<select name="transaction[inssuing_bank_account_id]" id="transaction_inssuing_bank_account_id" class="custom-select">
@@ -76,6 +89,17 @@
 				<%= f.hidden_field :transaction_type_id, :value => 3 %>
 				<h3><%= f.label :amount_transaction, "Money to transfer:", :class => "text-white col" %></h3>
 				<%= render "form" %>
+			</div>
+			<div class="row mx-3 my-3">
+				<h3><%= f.label :select_transaction_type, :class => "text-white col" %></h3>
+				<div class="input-group col mx-3">
+					<select name="transaction[transaction_mode_type_id]" id="transaction_transaction_mode_type_id" class="custom-select">
+						<option value="">Select account</option>
+						<% @transaction_mode_types.each do |type| %>
+							<option value="<%= type.id %>"><%= type.name_transaction_type %></option>
+						<% end %>
+					</select>
+				</div>
 			</div>
 			<div class="row mx-3 my-3">
 				<h3><%= f.label :select_account, :class => "text-white col" %></h3>
