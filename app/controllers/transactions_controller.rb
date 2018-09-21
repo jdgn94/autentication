@@ -4,9 +4,13 @@ class TransactionsController < ApplicationController
 
 	#GET /transactions
   	def index
-		@transactions = Transaction.all
+		@transactions = Transaction.paginate(page: params[:page],per_page:5).ultimas
 		@account = params[:account_id]
 		@bank_accounts = BankAccount.all
+  	end
+
+  	def show
+  		@transaction = Transaction.find(params[:id])
   	end
 
 	#GET /transaction/new
@@ -16,7 +20,7 @@ class TransactionsController < ApplicationController
 		@transaction_mode_types = TransactionModeType.all
 	end
 
-	#GET /transactions
+	#POST /transactions
 	def create
 		@transaction = Transaction.new(transaction_params)
 		@bank_accounts = BankAccount.all

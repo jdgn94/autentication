@@ -1,22 +1,24 @@
 <table class="table table-hover">
 	<thead class="thead-dark">
-		<tr>
-			<th>First name</th>
-			<th>Last name</th>
-			<th>Bank</th>
-			<th>Account type</th>
-			<th>Avalaible money</th>
+		<tr class="row">
+			<th class="col">First name</th>
+			<th class="col">Last name</th>
+			<th class="col">Bank</th>
+			<th class="col">Account type</th>
+			<th class="col">Avalaible money</th>
+			<th class="col-1"></th>
 		</tr>
 	</thead>
 	<tbody>
 		<% @bank_accounts.each do |account| %>
 			<% if account.profile == current_user.profile %>
-				<tr>
-					<td><%= account.profile.first_name %></td>
-					<td><%= account.profile.last_name %></td>
-					<td><%= account.bank_type.name_bank %></td>
-					<td><%= account.account_type.name_account_type %></td>
-					<td><%= account.available_money %>  <%= account.currency.symbol %></td>
+				<tr class="row">
+					<td class="col"><%= account.profile.first_name %></td>
+					<td class="col"><%= account.profile.last_name %></td>
+					<td class="col"><%= account.bank_type.name_bank %></td>
+					<td class="col"><%= account.account_type.name_account_type %></td>
+					<td class="col text-right"><%= account.available_money.round(2) %>  <%= account.currency.symbol %></td>
+					<td class="col-1"><%= link_to :Details, account %></td>
 				</tr>
 			<% end %>
 		<% end %>

@@ -1,13 +1,81 @@
-<h1 class="display-4">Welcome 
-	<% unless current_user.nil? %>
-		<% if current_user.profile.nil? %>
-			<%= current_user.email %>
-		<% else %>
-			<%= current_user.profile.first_name %>
+<script>
+	function obtenerValor(){
+		var valor1 = document.getElementById("currency_1").value;
+		var valor2 = document.getElementById("currency_2").value;
+		console.log(valor1);
+		console.log(valor2);
+	}
+	var moneda1 = 0.0
+	var moneda2 = 0.0
+	function input1(){
+		moneda1 = document.getElementById("currency_1").value;
+		moneda2 = moneda1*valor2/valor1;
+		document.getElementById("currency_2").value = moneda2;
+	}
+	function input2(){}
+</script>
+<h1 class="display-4 text-center">Quick change</h1>
+<div class="row my-3">
+	<div class="col-2"></div>
+	<div class="col">
+		<div class="text-center my-2">Currency 1</div>
+		<select class="custom-select col mx-3" name="currency_1" id="currency_1" onChange="obtenerValor()">
+			<option value="0">Select currency</option>
+			<% @currencies.each do |currency| %>
+				<option value="<%= currency.conversion %>"><%= currency.symbol %> - <%= currency.name_currency %></option>
+			<% end %>
+		</select>
+		<input type="text" class="form-control mx-3 my-3" id="amount_1" placeholder="0.00" onKeyPress="input1()">
+	</div>
+	<div class="col">
+		<div class="text-center my-2">Currency 2</div>
+		<select class="custom-select col mx-3" name="currency_2" id="currency_2" onChange="obtenerValor()">
+			<option value="0">Select currency</option>
+			<% @currencies.each do |currency| %>
+				<option value="<%= currency.conversion %>"><%= currency.symbol %> - <%= currency.name_currency %></option>
+			<% end %>
+		</select>
+		<input type="text" class="form-control mx-3 my-3" id="amount_2" placeholder="0.00" onKeyPress="input2()">
+	</div>
+	<div class="col-2"></div>
+</div>
+<h1 class="display-4 text-center">balance of the currencies</h1>
+<div class="row">
+	<div class="col"></div>
+	<div class="col-5">
+		<table class="table table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>Name</th>
+					<th>Acronym</th>
+					<th>Symbol</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @currencies.each do |currency| %>
+					<tr>
+						<td><%= currency.name_currency %></td>
+						<td><%= currency.acronym %></td>
+						<td><%= currency.symbol %></td>
+						<td>
+							<% unless current_user.nil? %>
+								<% if current_user.profile.rol_id == 1 %>
+									<%= link_to "edit currency", currency %>
+								<% end %>
+							<% end %>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<% unless current_user.nil? %>
+			<% if current_user.profile.rol_id == 1 %>
+				<%= link_to "add currency", new_currency_path, :class => "btn btn-primary mx-5 my-3" %>
+				<%= link_to "add bank", new_bank_type_path, :class => "btn btn-primary mx-5 my-3" %>
+			<% end %>
 		<% end %>
-	<% end %>
-</h1>
+	</div>
+	<div class="col"></div>
+</div>
 
-<% unless current_user.nil? || current_user.profile.nil? %>
-	<p>Hola</p>
-<% end %>

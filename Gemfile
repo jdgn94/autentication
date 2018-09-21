@@ -32,6 +32,11 @@ gem 'bootstrap', '~> 4.1.3'
 
 gem 'jquery-rails'
 
+gem 'will_paginate'
+
+gem 'kaminari'
+gem 'kaminari-bootstrap'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

@@ -1,4 +1,12 @@
-Bank name: <%= @bank_account.bank_type.name_bank %><br>
-Account number: <%= @bank_account.account_number %><br>
-Account type: <%= @bank_account.account_type.name_account_type %><br>
-Available money: <%= @bank_account.available_money %>  <%= @bank_account.currency.symbol %><br>
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col">
+		<p style="font-size: 22px"><span style="font-weight: bold;">Account holder:</span> <%= @bank_account.profile.last_name %>  <%= @bank_account.profile.first_name %></p>
+		<p style="font-size: 22px"><span style="font-weight: bold;">Bank name:</span> <%= @bank_account.bank_type.name_bank %></p>
+		<p style="font-size: 22px"><span style="font-weight: bold;">Account number:</span> <%= @bank_account.account_number %></p>
+		<p style="font-size: 22px"><span style="font-weight: bold;">Account type:</span> <%= @bank_account.account_type.name_account_type %></p>
+		<p style="font-size: 22px"><span style="font-weight: bold;">Available money:</span> <%= @bank_account.currency.symbol %>  <%= @bank_account.available_money.round(2) %></p>
+		<%= link_to :back, bank_accounts_path %>
+	</div>
+	<div class="col-2"></div>
+</div>

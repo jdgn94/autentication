@@ -6,4 +6,6 @@ class Transaction < ApplicationRecord
 
 	validates :amount_transaction, numericality: { only_float: true }
 
+	scope :ultimas, ->{ order ("created_at DESC") }
+
 end

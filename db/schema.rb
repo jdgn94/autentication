@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_20_154436) do
+ActiveRecord::Schema.define(version: 2018_09_21_184346) do
 
   create_table "account_types", force: :cascade do |t|
     t.string "name_account_type"
@@ -54,6 +54,14 @@ ActiveRecord::Schema.define(version: 2018_09_20_154436) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "rol_id"
+    t.index ["rol_id"], name: "index_profiles_on_rol_id"
+  end
+
+  create_table "rols", force: :cascade do |t|
+    t.string "name_rol"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "transaction_mode_types", force: :cascade do |t|

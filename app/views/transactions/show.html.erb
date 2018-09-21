@@ -1,0 +1,23 @@
+<p class="text-center display-4">Transaction details</p>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col">
+		<p style="font-size: 22px">
+			<span style="font-weight: bold;">Inssuing user date:</span><br>
+			Account holder: <%= @transaction.inssuing_bank_account.profile.last_name %> <%= @transaction.inssuing_bank_account.profile.first_name %><br>
+			Name bank: <%= @transaction.inssuing_bank_account.bank_type.name_bank %><br>
+			Account type: <%= @transaction.inssuing_bank_account.account_type.name_account_type %><br>
+				Account number: ******<%= @transaction.inssuing_bank_account.account_number%100 %><br>
+		</p>
+	</div>
+	<div class="col">
+		<p style="font-size: 22px">
+			<span style="font-weight: bold;">Receiving user data:</span><br>
+			Account holder: <%= @transaction.receiving_bank_account.profile.last_name %> <%= @transaction.receiving_bank_account.profile.first_name %><br>
+			Name bank: <%= @transaction.receiving_bank_account.bank_type.name_bank %><br>
+			Account type: <%= @transaction.receiving_bank_account.account_type.name_account_type %><br>
+				Account number: ******<%= @transaction.receiving_bank_account.account_number%100 %><br>
+		</p>
+	</div>
+</div>
+<%= link_to :back, transactions_path %>
