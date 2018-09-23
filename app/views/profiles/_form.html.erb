@@ -20,9 +20,15 @@
       <%= form.label :last_name %>
       <%= form.text_field :last_name, :class => "form-control" %>
     </div>
+    <%= form.hidden_field :rol_id => 2 %>
     <br>
+    <% unless current_user.profile.nil? %>
+      <% if current_user.profile.rol_id = 1 %>
+        <%= f.collection_select :rol_id, Rol.all, :id, :name_rol, :prompt => true %>
+      <% end %>
+    <% end %>
     <div class="actions">
-      <%= form.submit :class => "btn btn-primary" %>
+      <%= form.submit :class => "btn btn-primary my-3" %>
     </div>
   </div>
 <% end %>

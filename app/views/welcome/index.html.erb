@@ -1,41 +1,47 @@
 <script>
-	function obtenerValor(){
+	function tipo1(){
 		var valor1 = document.getElementById("currency_1").value;
 		var valor2 = document.getElementById("currency_2").value;
-		console.log(valor1);
-		console.log(valor2);
+		document.getElementById("amount_2").value = (document.getElementById("amount_1").value*valor2/valor1).toFixed(2);
 	}
-	var moneda1 = 0.0
-	var moneda2 = 0.0
-	function input1(){
-		moneda1 = document.getElementById("currency_1").value;
-		moneda2 = moneda1*valor2/valor1;
-		document.getElementById("currency_2").value = moneda2;
+	function tipo2(){
+		var valor1 = document.getElementById("currency_1").value;
+		var valor2 = document.getElementById("currency_2").value;
+		document.getElementById("amount_1").value = (document.getElementById("amount_2").value*valor1/valor2).toFixed(2);
 	}
-	function input2(){}
+	function moneda1(input1){
+		var valor1 = document.getElementById("currency_1").value;
+		var valor2 = document.getElementById("currency_2").value;
+		document.getElementById("amount_2").value = (input1*valor2/valor1).toFixed(2);
+	}
+	function moneda2(input2){
+		var valor1 = document.getElementById("currency_1").value;
+		var valor2 = document.getElementById("currency_2").value;
+		document.getElementById("amount_1").value = (input2*valor1/valor2).toFixed(2);
+	}
 </script>
 <h1 class="display-4 text-center">Quick change</h1>
 <div class="row my-3">
 	<div class="col-2"></div>
 	<div class="col">
 		<div class="text-center my-2">Currency 1</div>
-		<select class="custom-select col mx-3" name="currency_1" id="currency_1" onChange="obtenerValor()">
+		<select class="custom-select col mx-3" name="currency_1" id="currency_1" onchange="tipo1()">
 			<option value="0">Select currency</option>
 			<% @currencies.each do |currency| %>
 				<option value="<%= currency.conversion %>"><%= currency.symbol %> - <%= currency.name_currency %></option>
 			<% end %>
 		</select>
-		<input type="text" class="form-control mx-3 my-3" id="amount_1" placeholder="0.00" onKeyPress="input1()">
+		<input type="text" class="form-control mx-3 my-3" id="amount_1" placeholder="0.00" onkeyup="moneda1(this.value)">
 	</div>
 	<div class="col">
 		<div class="text-center my-2">Currency 2</div>
-		<select class="custom-select col mx-3" name="currency_2" id="currency_2" onChange="obtenerValor()">
+		<select class="custom-select col mx-3" name="currency_2" id="currency_2" onchange="tipo2()">
 			<option value="0">Select currency</option>
 			<% @currencies.each do |currency| %>
 				<option value="<%= currency.conversion %>"><%= currency.symbol %> - <%= currency.name_currency %></option>
 			<% end %>
 		</select>
-		<input type="text" class="form-control mx-3 my-3" id="amount_2" placeholder="0.00" onKeyPress="input2()">
+		<input type="text" class="form-control mx-3 my-3" id="amount_2" placeholder="0.00" onkeyup="moneda2(this.value)">
 	</div>
 	<div class="col-2"></div>
 </div>

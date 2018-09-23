@@ -5,14 +5,15 @@ class ProfilesController < ApplicationController
   # GET /profiles
   # GET /profiles.json
   def index
-    if current_user.profile.nil?
-      redirect_to new_profile_path
-    elsif current_user.nil?
+    if current_user.nil?
       redirect_to new_user_session_path
+    elsif current_user.profile.nil?
+      redirect_to new_profile_path
+    elsif current_user.profile.rol_id = 1
+      @profiles = Profile.all
     else
       redirect_to current_user.profile
     end
-    @profiles = Profile.all
   end
 
   # GET /profiles/1
@@ -36,7 +37,6 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
-    @currencies = Currency.all
   end
 
   # POST /profiles
@@ -60,7 +60,6 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1
   # PATCH/PUT /profiles/1.json
   def update
-    @currencies = Currency.all
     respond_to do |format|
       if @profile.update(profile_params)
         format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
@@ -91,7 +90,7 @@ class ProfilesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def profile_params
     puts params
-    params.require(:profile).permit(:first_name, :last_name, :money, :currency_type_id)
+    params.require(:profile).permit(:first_name, :last_name, :rol_id)
   end
 
 end
